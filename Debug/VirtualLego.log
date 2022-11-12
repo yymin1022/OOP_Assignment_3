@@ -1,0 +1,29 @@
+﻿빌드 시작: 2016-10-16 오후 8:48:03
+     1>2 노드의 "C:\Users\4F\Desktop\oop16_proj3\VirtualLego.vcxproj" 프로젝트(Build 대상)입니다.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /FR".\Debug\\" /Gd /TP /analyze- /errorReport:prompt d3dUtility.cpp
+         d3dUtility.cpp
+     1>c:\users\4f\desktop\oop16_proj3\d3dutility.h(23): warning C4005: 'INFINITY' : 매크로 재정의
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\math.h(102) : 'INFINITY'의 이전 정의를 참조하십시오.
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _MBCS /Gm /EHsc /RTC1 /MTd /GS /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /FR".\Debug\\" /Gd /TP /analyze- /errorReport:prompt virtualLego.cpp
+         virtualLego.cpp
+     1>c:\users\4f\desktop\oop16_proj3\d3dutility.h(23): warning C4005: 'INFINITY' : 매크로 재정의
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\math.h(102) : 'INFINITY'의 이전 정의를 참조하십시오.
+     1>c:\users\4f\desktop\oop16_proj3\virtuallego.cpp(116): warning C4305: '초기화 중' : 'double'에서 'const float'(으)로 잘립니다.
+     1>c:\users\4f\desktop\oop16_proj3\virtuallego.cpp(152): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\4f\desktop\oop16_proj3\virtuallego.cpp(153): warning C4244: '=' : 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\4f\desktop\oop16_proj3\virtuallego.cpp(263): warning C4305: 'return' : 'double'에서 'float'(으)로 잘립니다.
+     1>c:\users\4f\desktop\oop16_proj3\virtuallego.cpp(588): warning C4244: '=' : 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\4f\desktop\oop16_proj3\virtuallego.cpp(589): warning C4244: '=' : 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\VirtualLego.exe" /INCREMENTAL /NOLOGO odbc32.lib odbccp32.lib d3d9.lib d3dx9.lib winmm.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:".\Debug\VirtualLego.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\VirtualLego.lib" /MACHINE:X86 /SAFESEH .\Debug\d3dUtility.obj
+         .\Debug\virtualLego.obj
+     1>d3dUtility.obj : warning LNK4075: '/EDITANDCONTINUE'이(가) '/SAFESEH' 사양으로 인해 무시됩니다.
+         VirtualLego.vcxproj -> C:\Users\4F\Desktop\oop16_proj3\.\Debug\VirtualLego.exe
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o".\Debug\VirtualLego.bsc" .\Debug\d3dUtility.sbr .\Debug\virtualLego.sbr
+     1>"C:\Users\4F\Desktop\oop16_proj3\VirtualLego.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
+
+빌드했습니다.
+
+경과 시간: 00:00:03.04
