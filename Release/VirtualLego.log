@@ -1,0 +1,5 @@
+﻿  d3dUtility.cpp
+D:\Projects\CPP\OOP_Assignment_3\d3dUtility.h(16,10): fatal error C1083: 포함 파일을 열 수 없습니다. 'd3dx9.h': No such file or directory
+  virtualLego.cpp
+D:\Projects\CPP\OOP_Assignment_3\d3dUtility.h(16,10): fatal error C1083: 포함 파일을 열 수 없습니다. 'd3dx9.h': No such file or directory
+  코드를 생성하고 있습니다...
