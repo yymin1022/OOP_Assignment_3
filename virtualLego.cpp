@@ -411,7 +411,7 @@ bool Setup()
 	
 	// create blue ball for set direction
     if (false == g_target_blueball.create(Device, d3d::BLUE)) return false;
-	g_target_blueball.setCenter(.0f, (float)M_RADIUS , .0f);
+	g_target_blueball.setCenter(-4.5f, (float)M_RADIUS , .0f);
 	
 	// light setting 
     D3DLIGHT9 lit;
