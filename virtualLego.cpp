@@ -429,9 +429,9 @@ bool Setup()
         return false;
 	
 	// Position and aim the camera.
-	D3DXVECTOR3 pos(0.0f, 5.0f, -8.0f);
-	D3DXVECTOR3 target(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 up(0.0f, 2.0f, 0.0f);
+	D3DXVECTOR3 pos(-7.5f, 10.0f, 0.0f);
+	D3DXVECTOR3 target(5.0f, -10.0f, 0.0f);
+	D3DXVECTOR3 up(0.0f, 5.0f, 0.0f);
 	D3DXMatrixLookAtLH(&g_mView, &pos, &target, &up);
 	Device->SetTransform(D3DTS_VIEW, &g_mView);
 	
