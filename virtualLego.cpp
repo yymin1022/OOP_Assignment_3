@@ -18,10 +18,13 @@
 
 #include "d3dUtility.h"
 
+#define DECREASE_RATE 0.9982
+#define M_HEIGHT 0.01
 #define M_RADIUS 0.21
 #define PI 3.14159265
-#define M_HEIGHT 0.01
-#define DECREASE_RATE 0.9982
+
+#define cntBall 6
+#define cntWall 4
 
 IDirect3DDevice9* Device = NULL;
 
@@ -29,7 +32,7 @@ IDirect3DDevice9* Device = NULL;
 const int Width  = 1024;
 const int Height = 768;
 
-const float spherePos[6][2] = {
+const float spherePos[cntBall][2] = {
 	{-2.7f, 0},
 	{3.3f, -2.0f},
 	{3.3f, -1.0f},
@@ -37,7 +40,14 @@ const float spherePos[6][2] = {
 	{3.3f, 1.0f},
 	{3.3f, 2.0f}
 };
-const D3DXCOLOR sphereColor[6] = {d3d::RED, d3d::YELLOW, d3d::YELLOW, d3d::YELLOW, d3d::YELLOW , d3d::YELLOW };
+const D3DXCOLOR sphereColor[cntBall] = {
+	d3d::RED,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW
+};
 
 // -----------------------------------------------------------------------------
 // Transform matrices
@@ -62,12 +72,12 @@ private :
 
 public:
     CSphere(void){
-        D3DXMatrixIdentity(&m_mLocal);
-        ZeroMemory(&m_mtrl, sizeof(m_mtrl));
-        m_radius = 0;
+		D3DXMatrixIdentity(&m_mLocal);
+		ZeroMemory(&m_mtrl, sizeof(m_mtrl));
+		m_radius = 0;
 		m_velocity_x = 0;
 		m_velocity_z = 0;
-        m_pSphereMesh = NULL;
+		m_pSphereMesh = NULL;
     }
 
     ~CSphere(void){}
@@ -393,8 +403,8 @@ public:
 // Global variables
 // -----------------------------------------------------------------------------
 CWall g_boardBackground;
-CWall	 g_boardWall[4];
-CSphere	g_sphere[6];
+CWall	 g_boardWall[cntWall];
+CSphere	g_sphere[cntBall];
 CSphere	g_target_blueball;
 CLight	g_light;
 
@@ -439,7 +449,7 @@ bool Setup(){
 	g_boardWall[3].setPosition(-4.56f, 0.12f, 0.0f);
 
 	//Create Balls and Set Position
-	for(int i = 0; i < 6; i++){
+	for(int i = 0; i < cntBall; i++){
 		if(!g_sphere[i].create(Device, sphereColor[i])){
 			return false;
 		}
@@ -496,7 +506,7 @@ bool Setup(){
 void Cleanup(void){
     g_boardBackground.destroy();
 
-	for(int i = 0 ; i < 4; i++){
+	for(int i = 0 ; i < cntWall; i++){
 		g_boardWall[i].destroy();
 	}
 
@@ -512,31 +522,29 @@ bool Display(float timeDelta){
 		Device->BeginScene();
 		
 		// Update the Position of Each Ball. During update, check whether Each Ball hit by Walls.
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < cntBall; i++){
 			g_sphere[i].ballUpdate(timeDelta);
 
-			for(int j = 0; j < 4; j++){
+			for(int j = 0; j < cntWall; j++){
 				g_boardWall[j].hitBy(g_sphere[i]);
 			}
 		}
 
 		// Check whether any Two Balls hit together and Update the Direction of Balls
-		for(int i = 0 ;i < 6; i++){
-			for(int j = 0 ; j < 6; j++) {
-				if(i >= j){
-					continue;
-				}
-
-				g_sphere[i].hitBy(g_sphere[j]);
+		for(int i = 0 ;i < cntBall; i++){
+			for(int j = 0 ; j < cntBall; j++) {
+				if(i < j){
+					g_sphere[i].hitBy(g_sphere[j]);
+				}				
 			}
 		}
 
 		// Draw Board and Balls
 		g_boardBackground.draw(Device, g_mWorld);
-		for(int i =0; i < 4; i++){
+		for(int i =0; i < cntWall; i++){
 			g_boardWall[i].draw(Device, g_mWorld);
 		}
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < cntBall; i++){
 			g_sphere[i].draw(Device, g_mWorld);
 		}
 		g_target_blueball.draw(Device, g_mWorld);
