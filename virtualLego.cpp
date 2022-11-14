@@ -25,9 +25,9 @@ const int Height = 768;
 
 // There are four balls
 // initialize the position (coordinate) of each ball (ball0 ~ ball3)
-const float spherePos[4][2] = { {-2.7f,0} , {+2.4f,0} , {3.3f,0} , {-2.7f,-0.9f}}; 
+const float spherePos[6][2] = { {-2.7f, 0} , {3.3f, -2.0f} , {3.3f, -1.0f} , {3.3f, 0} , {3.3f, 1.0f} , {3.3f, 2.0f} };
 // initialize the color of each ball (ball0 ~ ball3)
-const D3DXCOLOR sphereColor[4] = {d3d::RED, d3d::RED, d3d::YELLOW, d3d::WHITE};
+const D3DXCOLOR sphereColor[6] = {d3d::RED, d3d::YELLOW, d3d::YELLOW, d3d::YELLOW, d3d::YELLOW , d3d::YELLOW };
 
 // -----------------------------------------------------------------------------
 // Transform matrices
@@ -364,7 +364,7 @@ private:
 // -----------------------------------------------------------------------------
 CWall	g_legoPlane;
 CWall	g_legowall[4];
-CSphere	g_sphere[4];
+CSphere	g_sphere[6];
 CSphere	g_target_blueball;
 CLight	g_light;
 
@@ -403,7 +403,7 @@ bool Setup()
 	g_legowall[3].setPosition(-4.56f, 0.12f, 0.0f);
 
 	// create four balls and set the position
-	for (i=0;i<4;i++) {
+	for (i=0;i<6;i++) {
 		if (false == g_sphere[i].create(Device, sphereColor[i])) return false;
 		g_sphere[i].setCenter(spherePos[i][0], (float)M_RADIUS , spherePos[i][1]);
 		g_sphere[i].setPower(0,0);
@@ -474,14 +474,14 @@ bool Display(float timeDelta)
 		Device->BeginScene();
 		
 		// update the position of each ball. during update, check whether each ball hit by walls.
-		for( i = 0; i < 4; i++) {
+		for( i = 0; i < 6; i++) {
 			g_sphere[i].ballUpdate(timeDelta);
 			for(j = 0; j < 4; j++){ g_legowall[i].hitBy(g_sphere[j]); }
 		}
 
 		// check whether any two balls hit together and update the direction of balls
-		for(i = 0 ;i < 4; i++){
-			for(j = 0 ; j < 4; j++) {
+		for(i = 0 ;i < 6; i++){
+			for(j = 0 ; j < 6; j++) {
 				if(i >= j) {continue;}
 				g_sphere[i].hitBy(g_sphere[j]);
 			}
@@ -491,6 +491,8 @@ bool Display(float timeDelta)
 		g_legoPlane.draw(Device, g_mWorld);
 		for (i=0;i<4;i++) 	{
 			g_legowall[i].draw(Device, g_mWorld);
+		}
+		for (i = 0; i < 6; i++) {
 			g_sphere[i].draw(Device, g_mWorld);
 		}
 		g_target_blueball.draw(Device, g_mWorld);
@@ -540,7 +542,7 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (targetpos.z - whitepos.z >= 0 && targetpos.x - whitepos.x <= 0) { theta = PI - theta; } //2 사분면
 				if (targetpos.z - whitepos.z <= 0 && targetpos.x - whitepos.x <= 0){ theta = PI + theta; } // 3 사분면
 				double distance = sqrt(pow(targetpos.x - whitepos.x, 2) + pow(targetpos.z - whitepos.z, 2));
-				g_sphere[3].setPower(distance * cos(theta), distance * sin(theta));
+				g_sphere[0].setPower(distance * cos(theta), distance * sin(theta));
 
 				break;
 
