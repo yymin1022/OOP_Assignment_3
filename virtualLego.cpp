@@ -283,11 +283,12 @@ public:
 
 		float ballX = ball.getCenter().x;
 		float ballZ = ball.getCenter().z;
+		float ballR = ball.getRadius();
 
-		float wallXmin = this->m_x - (this->getWidth() / 2 + ball.getRadius());
-		float wallXmax = this->m_x + (this->getWidth() / 2 + ball.getRadius());
-		float wallZmin = this->m_z - (this->getDepth() / 2 + ball.getRadius());
-		float wallZmax = this->m_z + (this->getDepth() / 2 + ball.getRadius());
+		float wallXmin = this->m_x - (this->getWidth() / 2 + ballR);
+		float wallXmax = this->m_x + (this->getWidth() / 2 + ballR);
+		float wallZmin = this->m_z - (this->getDepth() / 2 + ballR);
+		float wallZmax = this->m_z + (this->getDepth() / 2 + ballR);
 
 		if((wallXmin <= ballX && ballX <= wallXmax) && (wallZmin <= ballZ && ballZ <= wallZmax)){
 			return true;
@@ -298,6 +299,42 @@ public:
 
 	void hitBy(CSphere& ball){
 		// Insert your code here.
+
+		if(hasIntersected(ball)){
+			float ballX = ball.getCenter().x;
+			float ballY = ball.getCenter().y;
+			float ballZ = ball.getCenter().z;
+			float ballR = ball.getRadius();
+
+			float wallXmin = this->m_x - (this->getWidth() / 2);
+			float wallXmax = this->m_x + (this->getWidth() / 2);
+			float wallZmin = this->m_z - (this->getDepth() / 2);
+			float wallZmax = this->m_z + (this->getDepth() / 2);
+
+			if((wallXmin <= ballX && ballX <= wallXmax) && !(wallZmin <= ballZ && ballZ <= wallZmax)){
+				if(wallZmin - ballR <= ballZ && ballZ <= this->m_z){
+					ballZ = wallZmin - ballR - 0.01f;
+				}else{
+					ballZ = wallZmax + ballR + 0.01f;
+				}
+
+				ball.setPower(ball.getVelocity_X(), -ball.getVelocity_Z());
+			}
+
+			if(!(wallXmin <= ballX && ballX <= wallXmax) && (wallZmin <= ballZ && ballZ <= wallZmax)){
+				if (wallXmin - ballR <= ballX && ballX <= this->m_x) {
+					ballX = wallXmin - ballR - 0.01f;
+				}
+				else {
+					ballX = wallXmax + ballR + 0.01f;
+				}
+
+				ball.setPower(-ball.getVelocity_X(), ball.getVelocity_Z());
+			}
+
+			ball.setCenter(ballX, ballY, ballZ);
+		}
+
 	}    
 	
 	void setPosition(float x, float y, float z){
