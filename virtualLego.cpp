@@ -280,6 +280,18 @@ public:
 	
 	bool hasIntersected(CSphere& ball){
 		// Insert your code here.
+		float ballX = ball.getCenter().x;
+		float ballZ = ball.getCenter().z;
+
+		float wallXmin = this->m_x - (this->getWidth() / 2 + ball.getRadius());
+		float wallXmax = this->m_x + (this->getWidth() / 2 + ball.getRadius());
+		float wallZmin = this->m_z - (this->getDepth() / 2 + ball.getRadius());
+		float wallZmax = this->m_z + (this->getDepth() / 2 + ball.getRadius());
+
+		if((wallXmin <= ballX && ballX <= wallXmax) && (wallZmin <= ballZ && ballZ <= wallZmax)){
+			return true;
+		}
+
 		return false;
 	}
 
@@ -295,10 +307,18 @@ public:
 		D3DXMatrixTranslation(&m, x, y, z);
 		setLocalTransform(m);
 	}
+
+	float getDepth(void) const {
+		return m_depth;
+	};
 	
     float getHeight(void) const{
 		return M_HEIGHT;
-	}    
+	}
+
+	float getWidth(void) const {
+		return m_width;
+	}
 };
 
 // -----------------------------------------------------------------------------
