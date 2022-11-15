@@ -280,6 +280,7 @@ public:
 	
 	bool hasIntersected(CSphere& ball){
 		// Insert your code here.
+
 		float ballX = ball.getCenter().x;
 		float ballZ = ball.getCenter().z;
 
