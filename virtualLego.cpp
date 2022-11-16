@@ -471,8 +471,8 @@ public:
 CWall g_boardBackground;
 CWall	 g_boardWall[cntWall];
 CSphere	g_sphere[cntBall];
-CSphere g_sphereControl;
-CSphere	g_target_blueball;
+CSphere g_sphereMoving;
+CSphere	g_sphereControl;
 CLight	g_light;
 
 double g_camera_pos[3] = {0.0, 5.0, -8.0};
@@ -525,19 +525,19 @@ bool Setup(){
 		g_sphere[i].setPower(0,0);
 	}
 
-	if(!g_sphereControl.create(Device, d3d::RED)){
+	if(!g_sphereMoving.create(Device, d3d::RED)){
 		return false;
 	}
 
-	g_sphereControl.setCenter(-2.7f, (float)M_RADIUS, .0f);
-	g_sphereControl.setPower(0, 0);
+	g_sphereMoving.setCenter(-2.7f, (float)M_RADIUS, .0f);
+	g_sphereMoving.setPower(0, 0);
 	
 	// Create Blue Ball and Set Position
-	if(!g_target_blueball.create(Device, d3d::BLUE)){
+	if(!g_sphereControl.create(Device, d3d::BLUE)){
 		return false;
 	}
 
-	g_target_blueball.setCenter(-4.5f, (float)M_RADIUS, .0f);
+	g_sphereControl.setCenter(-4.5f, (float)M_RADIUS, .0f);
 	
 	// Setup UI Light
     D3DLIGHT9 lit;
@@ -604,9 +604,9 @@ bool Display(float timeDelta){
 			}
 		}
 
-		g_sphereControl.ballUpdate(timeDelta);
+		g_sphereMoving.ballUpdate(timeDelta);
 		for (int i = 0; i < cntWall; i++) {
-			g_boardWall[i].hitBy(g_sphereControl);
+			g_boardWall[i].hitBy(g_sphereMoving);
 		}
 
 		// Check whether any Two Balls hit together and Update the Direction of Balls
@@ -619,7 +619,7 @@ bool Display(float timeDelta){
 		}
 
 		for (int i = 0; i < cntBall; i++) {
-			g_sphere[i].hitBy(g_sphereControl);
+			g_sphere[i].hitBy(g_sphereMoving);
 		}
 
 		// Draw Board and Balls
@@ -630,8 +630,8 @@ bool Display(float timeDelta){
 		for(int i = 0; i < cntBall; i++){
 			g_sphere[i].draw(Device, g_mWorld);
 		}
+		g_sphereMoving.draw(Device, g_mWorld);
 		g_sphereControl.draw(Device, g_mWorld);
-		g_target_blueball.draw(Device, g_mWorld);
         g_light.draw(Device);
 		
 		Device->EndScene();
@@ -668,7 +668,7 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 					break;
 				case VK_SPACE:
-					D3DXVECTOR3 targetpos = g_target_blueball.getCenter();
+					D3DXVECTOR3 targetpos = g_sphereControl.getCenter();
 					D3DXVECTOR3	whitepos = g_sphere[3].getCenter();
 					double theta = acos(sqrt(pow(targetpos.x - whitepos.x, 2)) / sqrt(pow(targetpos.x - whitepos.x, 2) + pow(targetpos.z - whitepos.z, 2)));
 					// 기본 1 사분면
@@ -686,7 +686,7 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 
 					double distance = sqrt(pow(targetpos.x - whitepos.x, 2) + pow(targetpos.z - whitepos.z, 2));
-					g_sphereControl.setPower(distance * cos(theta), distance * sin(theta));
+					g_sphereMoving.setPower(distance * cos(theta), distance * sin(theta));
 
 					break;
 			}
