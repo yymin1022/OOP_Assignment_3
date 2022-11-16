@@ -610,6 +610,11 @@ bool Display(float timeDelta){
 			}
 		}
 
+		g_sphereControl.ballUpdate(timeDelta);
+		for (int i = 0; i < cntWall; i++) {
+			g_boardWall[i].hitBy(g_sphereControl);
+		}
+
 		// Check whether any Two Balls hit together and Update the Direction of Balls
 		for(int i = 0 ;i < cntBall; i++){
 			for(int j = 0 ; j < cntBall; j++) {
@@ -617,6 +622,10 @@ bool Display(float timeDelta){
 					g_sphere[i].hitBy(g_sphere[j]);
 				}				
 			}
+		}
+
+		for (int i = 0; i < cntBall; i++) {
+			g_sphere[i].hitBy(g_sphereControl);
 		}
 
 		// Draw Board and Balls
