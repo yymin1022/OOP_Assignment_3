@@ -18,7 +18,6 @@
 
 #include "d3dUtility.h"
 
-#define DECREASE_RATE 0.9982
 #define M_HEIGHT 0.01
 #define M_RADIUS 0.21
 #define PI 3.14159265
@@ -172,12 +171,7 @@ public:
 
 		//this->setPower(this->getVelocity_X() * DECREASE_RATE, this->getVelocity_Z() * DECREASE_RATE);
 
-		double rate = 1 -  (1 - DECREASE_RATE) * timeDiff * 400;
-		if(rate < 0){
-			rate = 0;
-		}
-
-		this->setPower(getVelocity_X() * rate, getVelocity_Z() * rate);
+		this->setPower(getVelocity_X(), getVelocity_Z());
 	}
 
 	D3DXVECTOR3 getCenter(void) const {
