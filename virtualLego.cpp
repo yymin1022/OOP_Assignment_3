@@ -23,7 +23,7 @@
 #define M_RADIUS 0.21
 #define PI 3.14159265
 
-#define cntBall 6
+#define cntBall 5
 #define cntWall 4
 
 IDirect3DDevice9* Device = NULL;
@@ -33,7 +33,6 @@ const int Width  = 1024;
 const int Height = 768;
 
 const float spherePos[cntBall][2] = {
-	{-2.7f, 0},
 	{3.3f, -2.0f},
 	{3.3f, -1.0f},
 	{3.3f, 0},
@@ -41,7 +40,6 @@ const float spherePos[cntBall][2] = {
 	{3.3f, 2.0f}
 };
 const D3DXCOLOR sphereColor[cntBall] = {
-	d3d::RED,
 	d3d::YELLOW,
 	d3d::YELLOW,
 	d3d::YELLOW,
@@ -479,6 +477,7 @@ public:
 CWall g_boardBackground;
 CWall	 g_boardWall[cntWall];
 CSphere	g_sphere[cntBall];
+CSphere g_sphereControl;
 CSphere	g_target_blueball;
 CLight	g_light;
 
@@ -531,6 +530,13 @@ bool Setup(){
 		g_sphere[i].setCenter(spherePos[i][0], (float)M_RADIUS, spherePos[i][1]);
 		g_sphere[i].setPower(0,0);
 	}
+
+	if(!g_sphereControl.create(Device, d3d::RED)){
+		return false;
+	}
+
+	g_sphereControl.setCenter(-2.7f, (float)M_RADIUS, .0f);
+	g_sphereControl.setPower(0, 0);
 	
 	// Create Blue Ball and Set Position
 	if(!g_target_blueball.create(Device, d3d::BLUE)){
@@ -621,6 +627,7 @@ bool Display(float timeDelta){
 		for(int i = 0; i < cntBall; i++){
 			g_sphere[i].draw(Device, g_mWorld);
 		}
+		g_sphereControl.draw(Device, g_mWorld);
 		g_target_blueball.draw(Device, g_mWorld);
         g_light.draw(Device);
 		
@@ -676,7 +683,7 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 
 					double distance = sqrt(pow(targetpos.x - whitepos.x, 2) + pow(targetpos.z - whitepos.z, 2));
-					g_sphere[0].setPower(distance * cos(theta), distance * sin(theta));
+					g_sphereControl.setPower(distance * cos(theta), distance * sin(theta));
 
 					break;
 			}
