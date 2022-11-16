@@ -122,6 +122,22 @@ public:
     bool hasIntersected(CSphere& ball){
 		// Insert your code here.
 
+		float curBallX = this->getCenter().x;
+		float curBallY = this->getCenter().y;
+		float curBallZ = this->getCenter().z;
+		float curBallR = this->getRadius();
+
+		float targetBallX = ball.getCenter().x;
+		float targetBallY = ball.getCenter().y;
+		float targetBallZ = ball.getCenter().z;
+		float targetBallR = ball.getRadius();
+
+		float distance = (curBallX - targetBallX) * (curBallX - targetBallX) + (curBallY - targetBallY) * (curBallY - targetBallY) + (curBallZ - targetBallZ) * (curBallZ - targetBallZ);
+
+		if(distance >= (curBallR - targetBallR) * (curBallR - targetBallR)){
+			return true;
+		}
+
 		return false;
 	}
 	
