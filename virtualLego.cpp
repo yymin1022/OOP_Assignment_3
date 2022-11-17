@@ -691,6 +691,15 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 			}
 			break;
+		case WM_MOUSEMOVE:
+			float newX = LOWORD(lParam);
+			float newY = HIWORD(lParam);
+			float dX, dY;
+
+			float boardRight = g_boardWall[0].getCenter().z - g_boardWall[0].getDepth() / 2 - g_sphereControl.getRadius();
+			float boardLeft = g_boardWall[1].getCenter().z + g_boardWall[1].getDepth() / 2 + g_sphereControl.getRadius();
+
+			break;
 	}
 	
 	return ::DefWindowProc(hwnd, msg, wParam, lParam);
