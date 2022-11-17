@@ -354,6 +354,14 @@ public:
 		setLocalTransform(m);
 	}
 
+	float getCenterX(void) const {
+		return m_x;
+	}
+
+	float getCenterZ(void) const {
+		return m_z;
+	}
+
 	float getDepth(void) const {
 		return m_depth;
 	};
