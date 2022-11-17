@@ -652,8 +652,7 @@ bool Display(float timeDelta){
 LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
 	static bool wire = false;
 	static bool isReset = true;
-    static int old_x = 0;
-    static int old_y = 0;
+    static float oldZ = 0;
     static enum{
 		WORLD_MOVE,
 		LIGHT_MOVE,
@@ -700,12 +699,28 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		case WM_MOUSEMOVE:
-			float newX = LOWORD(lParam);
-			float newY = HIWORD(lParam);
-			float dX, dY;
+			if (LOWORD(wParam)) {
+				float newZ = LOWORD(lParam);
+				float dZ = oldZ - newZ;
 
-			float boardRight = g_boardWall[0].getCenterZ() - g_boardWall[0].getDepth() / 2 - g_sphereControl.getRadius();
-			float boardLeft = g_boardWall[1].getCenterZ() + g_boardWall[1].getDepth() / 2 + g_sphereControl.getRadius();
+				D3DXVECTOR3 curSphereControl = g_sphereControl.getCenter();
+
+				float boardLeft = g_boardWall[1].getCenterZ() + g_boardWall[1].getDepth() / 2 + g_sphereControl.getRadius();
+				float boardRight = g_boardWall[0].getCenterZ() - g_boardWall[0].getDepth() / 2 - g_sphereControl.getRadius();
+				float tempZ = curSphereControl.z + dZ * (0.01f);
+				if (tempZ > boardRight) {
+					tempZ = boardRight;
+				}
+
+				if (tempZ < boardLeft) {
+					tempZ = boardLeft;
+				}
+
+				g_sphereControl.setCenter(curSphereControl.x, curSphereControl.y, tempZ);
+				oldZ = newZ;
+
+				move = WORLD_MOVE;
+			}
 
 			break;
 	}
