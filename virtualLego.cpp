@@ -483,6 +483,7 @@ CSphere g_sphereMoving;
 CSphere	g_sphereControl;
 CLight	g_light;
 
+bool isGameStart = false;
 double g_camera_pos[3] = {0.0, 5.0, -8.0};
 
 // -----------------------------------------------------------------------------
@@ -675,25 +676,10 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 					break;
 				case VK_SPACE:
-					D3DXVECTOR3 targetpos = g_sphereControl.getCenter();
-					D3DXVECTOR3	whitepos = g_sphere[3].getCenter();
-					double theta = acos(sqrt(pow(targetpos.x - whitepos.x, 2)) / sqrt(pow(targetpos.x - whitepos.x, 2) + pow(targetpos.z - whitepos.z, 2)));
-					// 기본 1 사분면
-					if(targetpos.z - whitepos.z <= 0 && targetpos.x - whitepos.x >= 0){
-						//4 사분면
-						theta = -theta;
+					if (!isGameStart) {
+						isGameStart = true;
+						g_sphereMoving.setPower(5.0f, 0.0);
 					}
-					if(targetpos.z - whitepos.z >= 0 && targetpos.x - whitepos.x <= 0){
-						//2 사분면
-						theta = PI - theta;
-					}
-					if(targetpos.z - whitepos.z <= 0 && targetpos.x - whitepos.x <= 0){
-						// 3 사분면
-						theta = PI + theta;
-					}
-
-					double distance = sqrt(pow(targetpos.x - whitepos.x, 2) + pow(targetpos.z - whitepos.z, 2));
-					g_sphereMoving.setPower(distance * cos(theta), distance * sin(theta));
 
 					break;
 			}
