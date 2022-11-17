@@ -704,8 +704,8 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			float newY = HIWORD(lParam);
 			float dX, dY;
 
-			float boardRight = g_boardWall[0].getCenter().z - g_boardWall[0].getDepth() / 2 - g_sphereControl.getRadius();
-			float boardLeft = g_boardWall[1].getCenter().z + g_boardWall[1].getDepth() / 2 + g_sphereControl.getRadius();
+			float boardRight = g_boardWall[0].getCenterZ() - g_boardWall[0].getDepth() / 2 - g_sphereControl.getRadius();
+			float boardLeft = g_boardWall[1].getCenterZ() + g_boardWall[1].getDepth() / 2 + g_sphereControl.getRadius();
 
 			break;
 	}
