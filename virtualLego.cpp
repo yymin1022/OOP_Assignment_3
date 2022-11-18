@@ -607,10 +607,6 @@ bool Display(float timeDelta){
 		// Update the Position of Each Ball. During update, check whether Each Ball hit by Walls.
 		for(int i = 0; i < cntBall; i++){
 			g_sphere[i].ballUpdate(timeDelta);
-
-			for(int j = 0; j < cntWall; j++){
-				g_boardWall[j].hitBy(g_sphere[i]);
-			}
 		}
 
 		g_sphereMoving.ballUpdate(timeDelta);
