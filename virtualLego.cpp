@@ -664,7 +664,7 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 				case VK_SPACE:
 					if (!isGameStart) {
-						isGameStart = true;t
+						isGameStart = true;
 						g_sphereMoving.setPower(5.0f, 0.0);
 					}
 
