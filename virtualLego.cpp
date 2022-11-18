@@ -131,20 +131,24 @@ public:
 
 		float distance = (curBallX - targetBallX) * (curBallX - targetBallX) + (curBallY - targetBallY) * (curBallY - targetBallY) + (curBallZ - targetBallZ) * (curBallZ - targetBallZ);
 
-		if(distance >= (curBallR - targetBallR) * (curBallR - targetBallR)){
+		if(distance <= curBallR + targetBallR){
 			return true;
 		}
 
 		return false;
 	}
 	
-	void hitBy(CSphere& ball){ 
+	void hitBy(CSphere& ball){
 		// Insert your code here.
+		if(hasIntersected(ball)){
+			float dX = this->getCenter().x - ball.getCenter().x;
+			float dZ = this->getCenter().z - ball.getCenter().z;
+		}
 	}
 
 	void ballUpdate(float timeDiff){
 		const float TIME_SCALE = 3.3;
-
+	
 		D3DXVECTOR3 cord = this->getCenter();
 
 		double vx = abs(this->getVelocity_X());
@@ -481,7 +485,7 @@ CWall	 g_boardWall[cntWall];
 CSphere	g_sphere[cntBall];
 CSphere g_sphereMoving;
 CSphere	g_sphereControl;
-//CLight	g_light;
+CLight	g_light;
 
 bool isGameStart = false;
 double g_camera_pos[3] = {0.0, 5.0, -8.0};
@@ -561,9 +565,9 @@ bool Setup(){
 	lit.Specular = d3d::WHITE * 0.9f;
     lit.Type = D3DLIGHT_POINT;
 
-	/*if(!g_light.create(Device, lit)){
+	if(!g_light.create(Device, lit)){
 		return false;
-	}*/
+	}
 
 	// Position and Aim Camera.
 	D3DXVECTOR3 pos(-7.5f, 10.0f, 0.0f);
@@ -581,7 +585,7 @@ bool Setup(){
     Device->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
     Device->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
 	
-	//g_light.setLight(Device, g_mWorld);
+	g_light.setLight(Device, g_mWorld);
 
 	return true;
 }
@@ -593,7 +597,7 @@ void Cleanup(void){
 		g_boardWall[i].destroy();
 	}
 
-    //g_light.destroy();
+    g_light.destroy();
 }
 
 
@@ -628,7 +632,7 @@ bool Display(float timeDelta){
 		}
 		g_sphereMoving.draw(Device, g_mWorld);
 		g_sphereControl.draw(Device, g_mWorld);
-        //g_light.draw(Device);
+        g_light.draw(Device);
 		
 		Device->EndScene();
 		Device->Present(0, 0, 0, 0);
