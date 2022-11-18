@@ -618,15 +618,6 @@ bool Display(float timeDelta){
 			g_boardWall[i].hitBy(g_sphereMoving);
 		}
 
-		// Check whether any Two Balls hit together and Update the Direction of Balls
-		for(int i = 0 ;i < cntBall; i++){
-			for(int j = 0 ; j < cntBall; j++) {
-				if(i < j){
-					g_sphere[i].hitBy(g_sphere[j]);
-				}				
-			}
-		}
-
 		for (int i = 0; i < cntBall; i++) {
 			g_sphere[i].hitBy(g_sphereMoving);
 		}
@@ -677,7 +668,7 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 				case VK_SPACE:
 					if (!isGameStart) {
-						isGameStart = true;
+						isGameStart = true;t
 						g_sphereMoving.setPower(5.0f, 0.0);
 					}
 
