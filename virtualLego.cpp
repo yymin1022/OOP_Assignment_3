@@ -611,6 +611,12 @@ bool Setup(){
 	return true;
 }
 
+void Reset(void){
+	g_sphereMoving.setCenter(-2.7f, (float)M_RADIUS, .0f);
+	g_sphereMoving.setPower(0, 0);
+	g_sphereMoving.setRemovable(false);
+}
+
 void Cleanup(void){
     g_boardBackground.destroy();
 
