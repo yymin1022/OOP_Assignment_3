@@ -556,7 +556,7 @@ bool Setup(){
 		return false;
 	}
 
-	g_sphereMoving.setCenter(-2.7f, (float)M_RADIUS, .0f);
+	g_sphereMoving.setCenter(-4.0f, (float)M_RADIUS, .0f);
 	g_sphereMoving.setPower(0, 0);
 	g_sphereMoving.setRemovable(false);
 	
@@ -607,10 +607,9 @@ bool Setup(){
 }
 
 void Reset(void){
-	g_sphereMoving.setCenter(-2.7f, (float)M_RADIUS, .0f);
+	g_sphereMoving.setCenter(-4.0f, (float)M_RADIUS, .0f);
 	g_sphereMoving.setPower(0, 0);
 	g_sphereMoving.setRemovable(false);
-
 	isGameStart = false;
 }
 
