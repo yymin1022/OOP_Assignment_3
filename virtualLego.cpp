@@ -542,11 +542,6 @@ bool Setup(){
 	}
 	g_boardWall[2].setPosition(4.56f, 0.12f, 0.0f);
 
-	if(!g_boardWall[3].create(Device, -1, -1, 0.12f, 0.3f, 6.24f, d3d::DARKRED)){
-		return false;
-	}
-	g_boardWall[3].setPosition(-4.56f, 0.12f, 0.0f);
-
 	//Create Balls and Set Position
 	for(int i = 0; i < cntBall; i++){
 		if(!g_sphere[i].create(Device, sphereColor[i])){
