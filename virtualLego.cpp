@@ -152,7 +152,7 @@ public:
 
 			if(this->isRemovable){
 				remainBallCnt--;
-				this->setCenter(9999, this->getCenter().y, 9999);
+				this->setCenter(4.0f + (this->getRadius() + 0.5f) * (remainBallCnt - cntBall), this->getCenter().y, -4.0f);
 			}
 		}
 	}
