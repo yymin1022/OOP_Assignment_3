@@ -148,6 +148,10 @@ public:
 			float oldVel = sqrt(ball.getVelocity_X() * ball.getVelocity_X() + ball.getVelocity_Z() * ball.getVelocity_Z());
 
 			ball.setPower(dx * oldVel / dist, dz * oldVel / dist);
+
+			if (this->isRemovable) {
+				this->setCenter(9999, this->getCenter().y, 9999);
+			}
 		}
 	}
 
