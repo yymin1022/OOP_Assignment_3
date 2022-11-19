@@ -610,6 +610,8 @@ void Reset(void){
 	g_sphereMoving.setCenter(-2.7f, (float)M_RADIUS, .0f);
 	g_sphereMoving.setPower(0, 0);
 	g_sphereMoving.setRemovable(false);
+
+	isGameStart = false;
 }
 
 void Cleanup(void){
@@ -645,6 +647,10 @@ bool Display(float timeDelta){
 		}
 
 		g_sphereControl.hitBy(g_sphereMoving);
+
+		if (g_sphereMoving.getCenter().x < -4.5f) {
+			Reset();
+		}
 
 		// Draw Board and Balls
 		g_boardBackground.draw(Device, g_mWorld);
