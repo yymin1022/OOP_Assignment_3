@@ -140,18 +140,13 @@ public:
 	void hitBy(CSphere& ball){
 		// Insert your code here.
 		if(hasIntersected(ball)){
-			float delta_x = ball.getCenter().x - this->getCenter().x;
-			float delta_z = ball.getCenter().z - this->getCenter().z;
-			float multiple;
+			float dx = ball.getCenter().x - this->getCenter().x;
+			float dz = ball.getCenter().z - this->getCenter().z;
 
-			float velocity_vector_scala = sqrt(ball.getVelocity_X() * ball.getVelocity_X() + ball.getVelocity_Z() * ball.getVelocity_Z());
-			float distance_vector_scala = sqrt(delta_x * delta_x + delta_z * delta_z);
-			multiple = velocity_vector_scala / distance_vector_scala;
+			float dist = sqrt(dx * dx + dz * dz);
+			float oldVel = sqrt(ball.getVelocity_X() * ball.getVelocity_X() + ball.getVelocity_Z() * ball.getVelocity_Z());
 
-			float new_velocity_x = multiple * delta_x;
-			float new_velocity_z = multiple * delta_z;
-
-			ball.setPower(new_velocity_x, new_velocity_z);
+			ball.setPower(dx * oldVel / dist, dz * oldVel / dist);
 		}
 	}
 
