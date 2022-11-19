@@ -118,7 +118,6 @@ public:
 	
     bool hasIntersected(CSphere& ball){
 		// Insert your code here.
-
 		float curBallX = this->getCenter().x;
 		float curBallY = this->getCenter().y;
 		float curBallZ = this->getCenter().z;
@@ -141,8 +140,18 @@ public:
 	void hitBy(CSphere& ball){
 		// Insert your code here.
 		if(hasIntersected(ball)){
-			float dX = this->getCenter().x - ball.getCenter().x;
-			float dZ = this->getCenter().z - ball.getCenter().z;
+			float delta_x = ball.getCenter().x - this->getCenter().x;
+			float delta_z = ball.getCenter().z - this->getCenter().z;
+			float multiple;
+
+			float velocity_vector_scala = sqrt(ball.getVelocity_X() * ball.getVelocity_X() + ball.getVelocity_Z() * ball.getVelocity_Z());
+			float distance_vector_scala = sqrt(delta_x * delta_x + delta_z * delta_z);
+			multiple = velocity_vector_scala / distance_vector_scala;
+
+			float new_velocity_x = multiple * delta_x;
+			float new_velocity_z = multiple * delta_z;
+
+			ball.setPower(new_velocity_x, new_velocity_z);
 		}
 	}
 
@@ -621,6 +630,8 @@ bool Display(float timeDelta){
 		for (int i = 0; i < cntBall; i++) {
 			g_sphere[i].hitBy(g_sphereMoving);
 		}
+
+		g_sphereControl.hitBy(g_sphereMoving);
 
 		// Draw Board and Balls
 		g_boardBackground.draw(Device, g_mWorld);
