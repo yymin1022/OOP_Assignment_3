@@ -57,7 +57,8 @@ D3DXMATRIX g_mProj;
 // CSphere class definition
 // -----------------------------------------------------------------------------
 class CSphere{
-private :
+private:
+	bool isRemovable;
 	float center_x, center_y, center_z;
     float m_radius;
 	float m_velocity_x;
@@ -203,6 +204,10 @@ public:
 		return this->m_velocity_z;
 	}
 
+	bool getRemovable() {
+		return this->isRemovable;
+	}
+
 	void setCenter(float x, float y, float z){
 		D3DXMATRIX m;
 		center_x = x;
@@ -220,6 +225,10 @@ public:
 	void setPower(double vx, double vz) {
 		this->m_velocity_x = vx;
 		this->m_velocity_z = vz;
+	}
+
+	void setRemovable(bool isRemovable) {
+		this->isRemovable = isRemovable;
 	}
 };
 
