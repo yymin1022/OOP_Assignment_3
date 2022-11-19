@@ -30,6 +30,7 @@ IDirect3DDevice9* Device = NULL;
 // Window Size
 const int Width  = 1024;
 const int Height = 768;
+int remainBallCnt = cntBall;
 
 const float spherePos[cntBall][2] = {
 	{3.3f, -2.0f},
@@ -507,7 +508,6 @@ CLight	g_light;
 
 bool isGameStart = false;
 double g_camera_pos[3] = {0.0, 5.0, -8.0};
-int remainBallCnt = cntBall;
 
 // -----------------------------------------------------------------------------
 // Functions
@@ -660,6 +660,10 @@ bool Display(float timeDelta){
 		Device->EndScene();
 		Device->Present(0, 0, 0, 0);
 		Device->SetTexture( 0, NULL );
+
+		if(!remainBallCnt){
+			exit(0);
+		}
 	}
 	return true;
 }
