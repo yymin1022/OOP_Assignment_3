@@ -557,6 +557,7 @@ bool Setup(){
 
 	g_sphereMoving.setCenter(-2.7f, (float)M_RADIUS, .0f);
 	g_sphereMoving.setPower(0, 0);
+	g_sphereMoving.setRemovable(false);
 	
 	// Create Blue Ball and Set Position
 	if(!g_sphereControl.create(Device, d3d::BLUE)){
@@ -564,6 +565,7 @@ bool Setup(){
 	}
 
 	g_sphereControl.setCenter(-4.5f, (float)M_RADIUS, .0f);
+	g_sphereControl.setRemovable(false);
 	
 	// Setup UI Light
     D3DLIGHT9 lit;
