@@ -23,7 +23,7 @@
 #define PI 3.14159265
 
 #define cntBall 5
-#define cntWall 4
+#define cntWall 3
 
 IDirect3DDevice9* Device = NULL;
 
