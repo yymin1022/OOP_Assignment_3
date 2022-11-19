@@ -149,7 +149,8 @@ public:
 
 			ball.setPower(dx * oldVel / dist, dz * oldVel / dist);
 
-			if (this->isRemovable) {
+			if(this->isRemovable){
+				remainBall--;
 				this->setCenter(9999, this->getCenter().y, 9999);
 			}
 		}
@@ -506,6 +507,7 @@ CLight	g_light;
 
 bool isGameStart = false;
 double g_camera_pos[3] = {0.0, 5.0, -8.0};
+int remainBall = cntBall;
 
 // -----------------------------------------------------------------------------
 // Functions
