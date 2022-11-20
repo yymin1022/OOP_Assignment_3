@@ -677,7 +677,7 @@ bool Display(float timeDelta){
 LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam){
 	static bool wire = false;
 	static bool isReset = true;
-    static float oldZ = 0;
+    static float oldZ = -1;
     static enum{
 		WORLD_MOVE,
 		LIGHT_MOVE,
@@ -722,6 +722,11 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_MOUSEMOVE:
 			if (LOWORD(wParam)) {
 				float newZ = LOWORD(lParam);
+
+				if (oldZ < 0) {
+					oldZ = newZ;
+				}
+
 				float dZ = oldZ - newZ;
 
 				D3DXVECTOR3 curSphereControl = g_sphereControl.getCenter();
