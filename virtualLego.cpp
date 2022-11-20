@@ -306,7 +306,7 @@ public:
         pDevice->MultiplyTransform(D3DTS_WORLD, &m_mLocal);
         pDevice->SetMaterial(&m_mtrl);
 
-		m_pBoundMesh->DrawSubset(0);
+ 		m_pBoundMesh->DrawSubset(0);
     }
 	
 	bool hasIntersected(CSphere& ball){
@@ -514,6 +514,38 @@ double g_camera_pos[3] = {0.0, 5.0, -8.0};
 // -----------------------------------------------------------------------------
 
 // Initialization
+bool InitSphere() {
+	//Create Balls and Set Position
+	for (int i = 0; i < cntBall; i++) {
+		if (!g_sphere[i].create(Device, sphereColor[i])) {
+			return false;
+		}
+
+		g_sphere[i].setCenter(spherePos[i][0], (float)M_RADIUS, spherePos[i][1]);
+		g_sphere[i].setPower(0, 0);
+	}
+
+	if (!g_sphereMoving.create(Device, d3d::RED)) {
+		return false;
+	}
+
+	g_sphereMoving.setCenter(-4.0f, (float)M_RADIUS, .0f);
+	g_sphereMoving.setPower(0, 0);
+	g_sphereMoving.setRemovable(false);
+
+	// Create Blue Ball and Set Position
+	if (!g_sphereControl.create(Device, d3d::BLUE)) {
+		return false;
+	}
+
+	g_sphereControl.setCenter(-4.5f, (float)M_RADIUS, .0f);
+	g_sphereControl.setRemovable(false);
+
+	remainBallCnt = cntBall;
+
+	return true;
+}
+
 bool Setup(){
 	D3DXMatrixIdentity(&g_mProj);
 	D3DXMatrixIdentity(&g_mView);
@@ -542,31 +574,9 @@ bool Setup(){
 	}
 	g_boardWall[2].setPosition(4.56f, 0.12f, 0.0f);
 
-	//Create Balls and Set Position
-	for(int i = 0; i < cntBall; i++){
-		if(!g_sphere[i].create(Device, sphereColor[i])){
-			return false;
-		}
-
-		g_sphere[i].setCenter(spherePos[i][0], (float)M_RADIUS, spherePos[i][1]);
-		g_sphere[i].setPower(0,0);
-	}
-
-	if(!g_sphereMoving.create(Device, d3d::RED)){
+	if(!InitSphere()){
 		return false;
 	}
-
-	g_sphereMoving.setCenter(-4.0f, (float)M_RADIUS, .0f);
-	g_sphereMoving.setPower(0, 0);
-	g_sphereMoving.setRemovable(false);
-	
-	// Create Blue Ball and Set Position
-	if(!g_sphereControl.create(Device, d3d::BLUE)){
-		return false;
-	}
-
-	g_sphereControl.setCenter(-4.5f, (float)M_RADIUS, .0f);
-	g_sphereControl.setRemovable(false);
 	
 	// Setup UI Light
     D3DLIGHT9 lit;
@@ -611,6 +621,10 @@ void Restart(void){
 	g_sphereMoving.setPower(0, 0);
 	g_sphereMoving.setRemovable(false);
 	isGameStart = false;
+}
+
+void Reset(void) {
+	InitSphere();
 }
 
 void Cleanup(void){
@@ -668,7 +682,8 @@ bool Display(float timeDelta){
 		Device->SetTexture( 0, NULL );
 
 		if(!remainBallCnt){
-			exit(0);
+			Reset();
+			isGameStart = false;
 		}
 	}
 	return true;
