@@ -8,7 +8,7 @@
 #define M_RADIUS 0.21
 #define PI 3.14159265
 
-#define cntBall 5
+#define cntBall 25
 #define cntWall 3
 
 using namespace std;
@@ -17,13 +17,59 @@ const int Width  = 1024;
 const int Height = 768;
 
 const float spherePos[cntBall][2] = {
-	{3.3f, -2.0f},
-	{3.3f, -1.0f},
-	{3.3f, 0},
-	{3.3f, 1.0f},
-	{3.3f, 2.0f}
+	{3.5f, 0.0f},
+	{3.35f, 1.0f},
+	{3.0f, 1.75f},
+	{2.35f, 2.25f},
+
+	{1.5f, 2.5f},
+	{0.55f, 2.25f},
+	{-0.55f, 1.75f},
+	{-1.35f, 1.0f},
+
+	{-1.5f, 0.0f},
+	{-1.35f, -1.0f},
+	{-0.55f, -1.75f},
+	{0.55f, -2.25f},
+
+	{1.5f, -2.5f},
+	{2.35f, -2.25f},
+	{3.0f, -1.75f},
+	{3.35f, -1.0f},
+
+	{2.0f, 1.0f},
+	{2.0f, -1.0f},
+
+	{1.0f, 0.0f},
+	{0.5f, 0.0f},
+
+	{0.0f, 1.0f},
+	{-0.4f, 0.5f},
+	{-0.5f, 0.0f},
+	{-0.4f, -0.5f},
+	{0.0f, -1.0f}
 };
 const D3DXCOLOR sphereColor[cntBall] = {
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
+	d3d::YELLOW,
 	d3d::YELLOW,
 	d3d::YELLOW,
 	d3d::YELLOW,
@@ -670,7 +716,7 @@ bool Display(float timeDelta){
 		Device->EndScene();
 		Device->Present(0, 0, 0, 0);
 		Device->SetTexture( 0, NULL );
-
+		
 		if(!remainBallCnt){
 			if(MessageBox(NULL, (LPCSTR)"Game Clear!! 게임을 종료하시겠습니까?", (LPCSTR)"Game Clear!!", MB_YESNO | MB_ICONQUESTION) == IDYES){
 				exit(0);
