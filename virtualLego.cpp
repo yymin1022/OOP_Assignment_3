@@ -682,8 +682,12 @@ bool Display(float timeDelta){
 		Device->SetTexture( 0, NULL );
 
 		if(!remainBallCnt){
-			Reset();
-			isGameStart = false;
+			if(MessageBox(NULL, (LPCSTR)"Clear! 게임을 종료하시겠습니까?", (LPCSTR)"Game Clear!!", MB_YESNO | MB_ICONQUESTION) == IDYES){
+				exit(0);
+			}else{
+				Reset();
+				isGameStart = false;
+			}
 		}
 	}
 	return true;
