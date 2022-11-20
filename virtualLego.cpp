@@ -667,7 +667,7 @@ bool Display(float timeDelta){
 			string msgContent = "Ball Out!!남은 기회는 ";
 			msgContent += to_string(remainLifeCnt);
 			msgContent += "회 입니다.";
-			MessageBox(NULL, (LPCSTR)msgContent.c_str(), (LPCSTR)"Game Clear!!", MB_OK | MB_ICONQUESTION);
+			MessageBox(NULL, (LPCSTR)msgContent.c_str(), (LPCSTR)"Ball Out!!", MB_OK | MB_ICONQUESTION);
 
 			Restart();
 		}
