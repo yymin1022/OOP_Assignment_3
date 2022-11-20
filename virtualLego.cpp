@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "d3dUtility.h"
+using namespace std;
 
 #define M_HEIGHT 0.01
 #define M_RADIUS 0.21
@@ -31,6 +32,7 @@ IDirect3DDevice9* Device = NULL;
 const int Width  = 1024;
 const int Height = 768;
 int remainBallCnt = cntBall;
+int remainLifeCnt = 4;
 
 const float spherePos[cntBall][2] = {
 	{3.3f, -2.0f},
@@ -662,6 +664,11 @@ bool Display(float timeDelta){
 		g_sphereControl.hitBy(g_sphereMoving);
 
 		if (g_sphereMoving.getCenter().x < -4.5f) {
+			string msgContent = "Ball Out!!남은 기회는 ";
+			msgContent += to_string(remainLifeCnt);
+			msgContent += "회 입니다.";
+			MessageBox(NULL, (LPCSTR)msgContent.c_str(), (LPCSTR)"Game Clear!!", MB_OK | MB_ICONQUESTION);
+
 			Restart();
 		}
 
@@ -682,7 +689,7 @@ bool Display(float timeDelta){
 		Device->SetTexture( 0, NULL );
 
 		if(!remainBallCnt){
-			if(MessageBox(NULL, (LPCSTR)"Clear! 게임을 종료하시겠습니까?", (LPCSTR)"Game Clear!!", MB_YESNO | MB_ICONQUESTION) == IDYES){
+			if(MessageBox(NULL, (LPCSTR)"Game Clear!! 게임을 종료하시겠습니까?", (LPCSTR)"Game Clear!!", MB_YESNO | MB_ICONQUESTION) == IDYES){
 				exit(0);
 			}else{
 				Reset();
