@@ -705,6 +705,12 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						g_sphereMoving.setPower(5.0f, 0.0);
 					}
 					break;
+				case VK_LEFT:
+				case 0x41:
+					break;
+				case VK_RIGHT:
+				case 0x44:
+					break;
 			}
 			break;
 		case WM_MOUSEMOVE:
