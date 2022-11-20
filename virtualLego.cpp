@@ -666,7 +666,6 @@ bool Display(float timeDelta){
 		}
 		g_sphereMoving.draw(Device, g_mWorld);
 		g_sphereControl.draw(Device, g_mWorld);
-        g_light.draw(Device);
 		
 		Device->EndScene();
 		Device->Present(0, 0, 0, 0);
