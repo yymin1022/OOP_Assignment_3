@@ -707,11 +707,15 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 				case VK_LEFT:
 				case 0x41:
-					g_sphereControl.setCenter(g_sphereControl.getCenter().x, g_sphereControl.getCenter().y, g_sphereControl.getCenter().z + 0.1f);
+					for (int i = 0; i < 10; i++) {
+						g_sphereControl.setCenter(g_sphereControl.getCenter().x, g_sphereControl.getCenter().y, g_sphereControl.getCenter().z + 0.01f);
+					}
 					break;
 				case VK_RIGHT:
 				case 0x44:
-					g_sphereControl.setCenter(g_sphereControl.getCenter().x, g_sphereControl.getCenter().y, g_sphereControl.getCenter().z - 0.1f);
+					for (int i = 0; i < 10; i++) {
+						g_sphereControl.setCenter(g_sphereControl.getCenter().x, g_sphereControl.getCenter().y, g_sphereControl.getCenter().z - 0.01f);
+					}
 					break;
 			}
 			break;
