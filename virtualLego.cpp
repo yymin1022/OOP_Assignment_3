@@ -606,7 +606,7 @@ bool Setup(){
 	return true;
 }
 
-void Reset(void){
+void Restart(void){
 	g_sphereMoving.setCenter(-4.0f, (float)M_RADIUS, .0f);
 	g_sphereMoving.setPower(0, 0);
 	g_sphereMoving.setRemovable(false);
@@ -648,7 +648,7 @@ bool Display(float timeDelta){
 		g_sphereControl.hitBy(g_sphereMoving);
 
 		if (g_sphereMoving.getCenter().x < -4.5f) {
-			Reset();
+			Restart();
 		}
 
 		// Draw Board and Balls
