@@ -1,23 +1,8 @@
-////////////////////////////////////////////////////////////////////////////////
-//
-// File: virtualLego.cpp
-//
-// Original Author: ¹ÚÃ¢Çö Chang-hyeon Park, 
-// Modified by Bong-Soo Sohn and Dong-Jun Kim
-// 
-// Originally programmed for Virtual LEGO. 
-// Modified later to program for Virtual Billiard.
-//        
-////////////////////////////////////////////////////////////////////////////////
-
-#include <cassert>
 #include <cstdlib>
-#include <cstdio>
 #include <ctime>
 #include <vector>
 
 #include "d3dUtility.h"
-using namespace std;
 
 #define M_HEIGHT 0.01
 #define M_RADIUS 0.21
@@ -26,13 +11,10 @@ using namespace std;
 #define cntBall 5
 #define cntWall 3
 
-IDirect3DDevice9* Device = NULL;
+using namespace std;
 
-// Window Size
 const int Width  = 1024;
 const int Height = 768;
-int remainBallCnt = cntBall;
-int remainLifeCnt = 4;
 
 const float spherePos[cntBall][2] = {
 	{3.3f, -2.0f},
@@ -49,6 +31,11 @@ const D3DXCOLOR sphereColor[cntBall] = {
 	d3d::YELLOW
 };
 
+int remainBallCnt = cntBall;
+int remainLifeCnt = 4;
+
+IDirect3DDevice9* Device = NULL;
+
 // -----------------------------------------------------------------------------
 // Transform matrices
 // -----------------------------------------------------------------------------
@@ -62,7 +49,9 @@ D3DXMATRIX g_mProj;
 class CSphere{
 private:
 	bool isRemovable = true;
-	float center_x, center_y, center_z;
+	float center_x;
+	float center_y;
+	float center_z;
     float m_radius;
 	float m_velocity_x;
 	float m_velocity_z;
@@ -75,6 +64,7 @@ public:
     CSphere(void){
 		D3DXMatrixIdentity(&m_mLocal);
 		ZeroMemory(&m_mtrl, sizeof(m_mtrl));
+
 		m_radius = 0;
 		m_velocity_x = 0;
 		m_velocity_z = 0;
@@ -121,7 +111,6 @@ public:
     }
 	
     bool hasIntersected(CSphere& ball){
-		// Insert your code here.
 		float curBallX = this->getCenter().x;
 		float curBallY = this->getCenter().y;
 		float curBallZ = this->getCenter().z;
@@ -142,7 +131,6 @@ public:
 	}
 	
 	void hitBy(CSphere& ball){
-		// Insert your code here.
 		if(hasIntersected(ball)){
 			float dx = ball.getCenter().x - this->getCenter().x;
 			float dz = ball.getCenter().z - this->getCenter().z;
@@ -169,38 +157,26 @@ public:
 		if(vx > 0.01 || vz > 0.01){
 			float tX = cord.x + TIME_SCALE * timeDiff * m_velocity_x;
 			float tZ = cord.z + TIME_SCALE * timeDiff *m_velocity_z;
-
-			//correction of position of ball
-			// Please uncomment this part because this correction of ball position is necessary when a ball collides with a wall
-			/*if(tX >= (4.5 - M_RADIUS))
-				tX = 4.5 - M_RADIUS;
-			else if(tX <=(-4.5 + M_RADIUS))
-				tX = -4.5 + M_RADIUS;
-			else if(tZ <= (-3 + M_RADIUS))
-				tZ = -3 + M_RADIUS;
-			else if(tZ >= (3 - M_RADIUS))
-				tZ = 3 - M_RADIUS;*/
 			
 			this->setCenter(tX, cord.y, tZ);
 		}else{
 			this->setPower(0,0);
 		}
 
-		//this->setPower(this->getVelocity_X() * DECREASE_RATE, this->getVelocity_Z() * DECREASE_RATE);
-
 		this->setPower(getVelocity_X(), getVelocity_Z());
 	}
 
-	D3DXVECTOR3 getCenter(void) const {
+	D3DXVECTOR3 getCenter(void) const{
 		D3DXVECTOR3 org(center_x, center_y, center_z);
+
 		return org;
 	}
 
-	const D3DXMATRIX& getLocalTransform(void) const {
+	const D3DXMATRIX& getLocalTransform(void) const{
 		return m_mLocal;
 	}
 
-	float getRadius(void)  const {
+	float getRadius(void)  const{
 		return (float)(M_RADIUS);
 	}
 
@@ -212,7 +188,7 @@ public:
 		return this->m_velocity_z;
 	}
 
-	bool getRemovable() {
+	bool getRemovable(){
 		return this->isRemovable;
 	}
 
@@ -226,16 +202,16 @@ public:
 		setLocalTransform(m);
 	}
 
-	void setLocalTransform(const D3DXMATRIX& mLocal) {
+	void setLocalTransform(const D3DXMATRIX& mLocal){
 		m_mLocal = mLocal;
 	}
 
-	void setPower(double vx, double vz) {
+	void setPower(double vx, double vz){
 		this->m_velocity_x = vx;
 		this->m_velocity_z = vz;
 	}
 
-	void setRemovable(bool isRemovable) {
+	void setRemovable(bool isRemovable){
 		this->isRemovable = isRemovable;
 	}
 };
@@ -264,6 +240,7 @@ public:
     CWall(void){
         D3DXMatrixIdentity(&m_mLocal);
         ZeroMemory(&m_mtrl, sizeof(m_mtrl));
+
         m_width = 0;
         m_depth = 0;
         m_pBoundMesh = NULL;
@@ -300,7 +277,7 @@ public:
     }
 
     void draw(IDirect3DDevice9* pDevice, const D3DXMATRIX& mWorld){
-		if (pDevice == NULL) {
+		if(pDevice == NULL){
 			return;
 		}
 
@@ -312,8 +289,6 @@ public:
     }
 	
 	bool hasIntersected(CSphere& ball){
-		// Insert your code here.
-
 		float ballX = ball.getCenter().x;
 		float ballZ = ball.getCenter().z;
 		float ballR = ball.getRadius();
@@ -331,8 +306,6 @@ public:
 	}
 
 	void hitBy(CSphere& ball){
-		// Insert your code here.
-
 		if(hasIntersected(ball)){
 			float ballX = ball.getCenter().x;
 			float ballY = ball.getCenter().y;
@@ -355,10 +328,10 @@ public:
 			}
 
 			if(!(wallXmin <= ballX && ballX <= wallXmax) && (wallZmin <= ballZ && ballZ <= wallZmax)){
-				if (wallXmin - ballR <= ballX && ballX <= this->m_x) {
+				if(wallXmin - ballR <= ballX && ballX <= this->m_x){
 					ballX = wallXmin - ballR - 0.01f;
 				}
-				else {
+				else{
 					ballX = wallXmax + ballR + 0.01f;
 				}
 
@@ -379,15 +352,15 @@ public:
 		setLocalTransform(m);
 	}
 
-	float getCenterX(void) const {
+	float getCenterX(void) const{
 		return m_x;
 	}
 
-	float getCenterZ(void) const {
+	float getCenterZ(void) const{
 		return m_z;
 	}
 
-	float getDepth(void) const {
+	float getDepth(void) const{
 		return m_depth;
 	};
 	
@@ -395,7 +368,7 @@ public:
 		return M_HEIGHT;
 	}
 
-	float getWidth(void) const {
+	float getWidth(void) const{
 		return m_width;
 	}
 };
@@ -456,7 +429,7 @@ public:
     }
 
     void destroy(void){
-        if (m_pMesh != NULL) {
+        if(m_pMesh != NULL){
             m_pMesh->Release();
             m_pMesh = NULL;
         }
@@ -501,6 +474,9 @@ public:
 // -----------------------------------------------------------------------------
 // Global variables
 // -----------------------------------------------------------------------------
+bool isGameStart = false;
+double g_camera_pos[3] = { 0.0, 5.0, -8.0 };
+
 CWall g_boardBackground;
 CWall	 g_boardWall[cntWall];
 CSphere	g_sphere[cntBall];
@@ -508,18 +484,13 @@ CSphere g_sphereMoving;
 CSphere	g_sphereControl;
 CLight	g_light;
 
-bool isGameStart = false;
-double g_camera_pos[3] = {0.0, 5.0, -8.0};
-
 // -----------------------------------------------------------------------------
 // Functions
 // -----------------------------------------------------------------------------
-
-// Initialization
-bool InitSphere() {
-	//Create Balls and Set Position
-	for (int i = 0; i < cntBall; i++) {
-		if (!g_sphere[i].create(Device, sphereColor[i])) {
+bool InitSphere(){
+	// Create Target Balls
+	for(int i = 0; i < cntBall; i++){
+		if(!g_sphere[i].create(Device, sphereColor[i])){
 			return false;
 		}
 
@@ -527,7 +498,7 @@ bool InitSphere() {
 		g_sphere[i].setPower(0, 0);
 	}
 
-	if (!g_sphereMoving.create(Device, d3d::RED)) {
+	if(!g_sphereMoving.create(Device, d3d::RED)){
 		return false;
 	}
 
@@ -536,11 +507,12 @@ bool InitSphere() {
 	g_sphereMoving.setRemovable(false);
 
 	// Create Blue Ball and Set Position
-	if (!g_sphereControl.create(Device, d3d::BLUE)) {
+	if(!g_sphereControl.create(Device, d3d::BLUE)){
 		return false;
 	}
 
 	g_sphereControl.setCenter(-4.5f, (float)M_RADIUS, .0f);
+	g_sphereControl.setPower(0, 0);
 	g_sphereControl.setRemovable(false);
 
 	remainBallCnt = cntBall;
@@ -626,7 +598,7 @@ void Restart(void){
 	isGameStart = false;
 }
 
-void Reset(void) {
+void Reset(void){
 	InitSphere();
 }
 
@@ -654,11 +626,11 @@ bool Display(float timeDelta){
 		}
 
 		g_sphereMoving.ballUpdate(timeDelta);
-		for (int i = 0; i < cntWall; i++) {
+		for(int i = 0; i < cntWall; i++){
 			g_boardWall[i].hitBy(g_sphereMoving);
 		}
 
-		for (int i = 0; i < cntBall; i++) {
+		for(int i = 0; i < cntBall; i++){
 			g_sphere[i].hitBy(g_sphereMoving);
 		}
 
@@ -738,30 +710,30 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					}
 					break;
 				case VK_SPACE:
-					if (!isGameStart) {
+					if(!isGameStart){
 						isGameStart = true;
 						g_sphereMoving.setPower(5.0f, 0.0);
 					}
 					break;
 				case VK_LEFT:
 				case 0x41:
-					for (int i = 0; i < 10; i++) {
+					for(int i = 0; i < 10; i++){
 						g_sphereControl.setCenter(g_sphereControl.getCenter().x, g_sphereControl.getCenter().y, g_sphereControl.getCenter().z + 0.01f);
 					}
 					break;
 				case VK_RIGHT:
 				case 0x44:
-					for (int i = 0; i < 10; i++) {
+					for(int i = 0; i < 10; i++){
 						g_sphereControl.setCenter(g_sphereControl.getCenter().x, g_sphereControl.getCenter().y, g_sphereControl.getCenter().z - 0.01f);
 					}
 					break;
 			}
 			break;
 		case WM_MOUSEMOVE:
-			if (LOWORD(wParam)) {
+			if(LOWORD(wParam)){
 				float newZ = LOWORD(lParam);
 
-				if (oldZ < 0) {
+				if(oldZ < 0){
 					oldZ = newZ;
 				}
 
@@ -772,11 +744,11 @@ LRESULT CALLBACK d3d::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				float boardLeft = g_boardWall[1].getCenterZ() + g_boardWall[1].getDepth() / 2 + g_sphereControl.getRadius();
 				float boardRight = g_boardWall[0].getCenterZ() - g_boardWall[0].getDepth() / 2 - g_sphereControl.getRadius();
 				float tempZ = curSphereControl.z + dZ * (0.01f);
-				if (tempZ > boardRight) {
+				if(tempZ > boardRight){
 					tempZ = boardRight;
 				}
 
-				if (tempZ < boardLeft) {
+				if(tempZ < boardLeft){
 					tempZ = boardLeft;
 				}
 
