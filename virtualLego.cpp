@@ -663,12 +663,22 @@ bool Display(float timeDelta){
 
 		g_sphereControl.hitBy(g_sphereMoving);
 
-		if (g_sphereMoving.getCenter().x < -4.5f) {
+		if(g_sphereMoving.getCenter().x < -4.5f){
+			if(remainLifeCnt <= 0){
+				if(MessageBox(NULL, (LPCSTR)"Game Over!! 게임을 종료하시겠습니까?", (LPCSTR)"Game Over!!", MB_YESNO | MB_ICONQUESTION) == IDYES){
+					exit(0);
+				}else{
+					Reset();
+					isGameStart = false;
+				}
+			}
+
 			string msgContent = "Ball Out!!남은 기회는 ";
 			msgContent += to_string(remainLifeCnt);
 			msgContent += "회 입니다.";
 			MessageBox(NULL, (LPCSTR)msgContent.c_str(), (LPCSTR)"Ball Out!!", MB_OK | MB_ICONQUESTION);
 
+			remainLifeCnt--;
 			Restart();
 		}
 
