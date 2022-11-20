@@ -148,7 +148,7 @@ public:
 			float dist = sqrt(dx * dx + dz * dz);
 			float oldVel = sqrt(ball.getVelocity_X() * ball.getVelocity_X() + ball.getVelocity_Z() * ball.getVelocity_Z());
 
-			ball.setPower(dx * oldVel / dist, dz * oldVel / dist);
+			ball.setPower(oldVel * dx / dist, oldVel * dz / dist);
 
 			if(this->isRemovable){
 				remainBallCnt--;
