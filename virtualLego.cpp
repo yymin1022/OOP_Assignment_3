@@ -544,6 +544,7 @@ bool InitSphere() {
 	g_sphereControl.setRemovable(false);
 
 	remainBallCnt = cntBall;
+	remainLifeCnt = 4;
 
 	return true;
 }
@@ -665,11 +666,12 @@ bool Display(float timeDelta){
 
 		if(g_sphereMoving.getCenter().x < -4.5f){
 			if(remainLifeCnt <= 0){
-				if(MessageBox(NULL, (LPCSTR)"Game Over!! 게임을 종료하시겠습니까?", (LPCSTR)"Game Over!!", MB_YESNO | MB_ICONQUESTION) == IDYES){
-					exit(0);
-				}else{
+				if(MessageBox(NULL, (LPCSTR)"Game Over!! 게임을 다시 시작하시겠습니까?", (LPCSTR)"Game Over!!", MB_YESNO | MB_ICONQUESTION) == IDYES){
 					Reset();
 					isGameStart = false;
+					return true;
+				}else{
+					exit(0);
 				}
 			}
 
